@@ -118,7 +118,7 @@ public class Search {
 			data += "ID :" + rs.getInt(1) + " Name: " + rs.getString(2) + " Department: " + rs.getString(3)
 					+ " Address: " + rs.getString(4) + " Designation: " + rs.getString(5) + " Salary: " + rs.getInt(6)
 					+ " start date: " + rs.getString(7) + " end date: " + rs.getString(8) + " dob: " + rs.getString(9)
-					+ " gender: " + rs.getString(10) + " pf: " + rs.getInt(11) + "\n";
+					+ " gender: " + rs.getString(10) + " pf: " + rs.getInt(11) + "No of days worked"+ rs.getInt(12)+"\n";
 
 		}
 		JOptionPane.showMessageDialog(frame, data);
@@ -140,7 +140,7 @@ public class Search {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		// Search label at the top

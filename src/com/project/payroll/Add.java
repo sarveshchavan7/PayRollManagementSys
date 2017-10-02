@@ -17,7 +17,6 @@ import java.awt.Font;
 import javax.swing.JRadioButton;
 
 public class Add {
-
 	public JFrame frame;
 	private JTextField textFieldID;
 	private JTextField textFieldName;
@@ -28,6 +27,7 @@ public class Add {
 	private JTextField textFieldDeparetment;
 	private JTextField textFieldDob;
 	String gender;
+	private JTextField textNoOfDays;
 
 	// return true if entered string is in correct format
 	boolean DateFormat(String Date) {
@@ -41,16 +41,17 @@ public class Add {
 
 	}
 
-	//This method will add the records in the database
+	// This method will add the records in the database
 	public void addRecords(int id, String name, String dept, String adds, String desig, int salary, String startDate,
-			String endDate, String dob, String gender) throws Exception {
+		String endDate, String dob, String gender, int no_OfDays) throws Exception {
 		String url = "jdbc:mysql://localhost:3306/mydatabase";
 		String user_name = "root";
 		String pass = "";
-		int pf = (97 * salary) / 100;
+		salary *= no_OfDays;
+		int pf = (12 * salary) / 100;
 		String queryTwo = "insert into payroll values (" + id + ",'" + name + "','" + dept + "','" + adds + "','"
 				+ desig + "'," + salary + ",'" + startDate + "','" + endDate + "','" + dob + "','" + gender + "'," + pf
-				+ ")";
+				+ "," + no_OfDays + ")";
 
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con = DriverManager.getConnection(url, user_name, pass);
@@ -62,7 +63,7 @@ public class Add {
 		con.close();
 	}
 
-	//If the id is already used then it will return true else false
+	// If the id is already used then it will return true else false
 	boolean checkID(int id) throws Exception {
 		String url = "jdbc:mysql://localhost:3306/mydatabase";
 		String name = "root";
@@ -101,7 +102,7 @@ public class Add {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 600, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel myMessage = new JLabel("");
@@ -169,8 +170,8 @@ public class Add {
 		frame.getContentPane().add(textFieldSalary);
 		textFieldSalary.setColumns(10);
 
-		JLabel salary = new JLabel("Salary");
-		salary.setBounds(345, 83, 46, 14);
+		JLabel salary = new JLabel("Dialy Salary");
+		salary.setBounds(345, 83, 77, 14);
 		frame.getContentPane().add(salary);
 
 		// Start Date
@@ -195,7 +196,7 @@ public class Add {
 		endDate.setBounds(346, 190, 76, 17);
 		frame.getContentPane().add(endDate);
 
-		//Gender
+		// Gender
 		JLabel lblGender = new JLabel("Gender");
 		lblGender.setBounds(26, 175, 46, 14);
 		frame.getContentPane().add(lblGender);
@@ -222,7 +223,7 @@ public class Add {
 		group.add(rdbtnFemale);
 		group.add(rdbtnMale);
 
-		//DOB
+		// DOB
 		JLabel lblNewLabel = new JLabel("DOB");
 		lblNewLabel.setBounds(26, 133, 46, 14);
 		frame.getContentPane().add(lblNewLabel);
@@ -232,11 +233,21 @@ public class Add {
 		frame.getContentPane().add(textFieldDob);
 		textFieldDob.setColumns(10);
 
-		//Add button 
+		JLabel lblNoOfDays = new JLabel("No. of days worked");
+		lblNoOfDays.setBounds(346, 243, 113, 14);
+		frame.getContentPane().add(lblNoOfDays);
+
+		textNoOfDays = new JTextField();
+		textNoOfDays.setBounds(472, 240, 46, 20);
+		frame.getContentPane().add(textNoOfDays);
+		textNoOfDays.setColumns(10);
+
+		// Add button
 		JButton add = new JButton("ADD");
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//If any of the operation in the try block fails catch is called
+				// If any of the operation in the try block fails catch is
+				// called
 				try {
 
 					int id = Integer.parseInt(textFieldID.getText());
@@ -248,15 +259,18 @@ public class Add {
 					String startDate = textFieldStartD.getText();
 					String endDate = textFieldEndD.getText();
 					String dob = textFieldDob.getText();
-					
-					//This if block will check that all the data in the field are of the correct type
+					int no_OfDays = Integer.parseInt(textNoOfDays.getText());
+
+					// This if block will check that all the data in the field
+					// are of the correct type
 					if (name instanceof String && add instanceof String && dept instanceof String
 							&& designation instanceof String && DateFormat(startDate) && DateFormat(endDate)
 							&& DateFormat(dob)) {
-						//If id is not been used then execute if block
+						// If id is not been used then execute if block
 						if (!checkID(id)) {
 
-							addRecords(id, name, dept, add, designation, salary, startDate, endDate, dob, gender);
+							addRecords(id, name, dept, add, designation, salary, startDate, endDate, dob, gender,
+									no_OfDays);
 							JOptionPane.showMessageDialog(frame, "Records added sucessfully");
 						} else {
 							JOptionPane.showMessageDialog(frame, "ID is already used");

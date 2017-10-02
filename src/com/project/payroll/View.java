@@ -40,9 +40,9 @@ public class View {
 	private JLabel displayGender;
 	private JLabel lblPf;
 	private JLabel displayPf;
+	private JLabel labelNoOfDays;
 
-	
-	public void resetLabels(){
+	public void resetLabels() {
 		display_Name.setText("");
 		display_Dept.setText("");
 		display_add.setText("");
@@ -53,9 +53,10 @@ public class View {
 		displayDOB.setText("");
 		displayGender.setText("");
 		displayPf.setText("");
+		labelNoOfDays.setText("");
 	}
-	
-	//This method will view the data of the particular id
+
+	// This method will view the data of the particular id
 	public void View_Details(int id) throws Exception {
 		String url = "jdbc:mysql://localhost:3306/mydatabase";
 		String user_name = "root";
@@ -79,6 +80,7 @@ public class View {
 		displayDOB.setText(rs.getString(9));
 		displayGender.setText(rs.getString(10));
 		displayPf.setText(rs.getString(11));
+		labelNoOfDays.setText(rs.getString(12));
 		st.close();
 		con.close();
 	}
@@ -95,8 +97,8 @@ public class View {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 550, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 550, 420);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel lblView = new JLabel("View Details");
@@ -141,8 +143,7 @@ public class View {
 		label_EndD.setBounds(274, 306, 78, 14);
 		frame.getContentPane().add(label_EndD);
 
-		
-		//Button view
+		// Button view
 		btn_View = new JButton("View");
 		btn_View.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -150,7 +151,7 @@ public class View {
 					resetLabels();
 					View_Details(Integer.parseInt(textFieldId.getText().toString()));
 				} catch (Exception exception) {
-					
+
 					JOptionPane.showMessageDialog(frame, "Check your Id");
 				}
 
@@ -214,5 +215,13 @@ public class View {
 		displayPf = new JLabel("");
 		displayPf.setBounds(365, 203, 46, 14);
 		frame.getContentPane().add(displayPf);
+
+		JLabel lblNoOfDays = new JLabel("No of days worked");
+		lblNoOfDays.setBounds(274, 344, 127, 14);
+		frame.getContentPane().add(lblNoOfDays);
+
+		labelNoOfDays = new JLabel();
+		labelNoOfDays.setBounds(410, 344, 46, 14);
+		frame.getContentPane().add(labelNoOfDays);
 	}
 }

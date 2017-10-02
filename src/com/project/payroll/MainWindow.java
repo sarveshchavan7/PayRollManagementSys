@@ -11,9 +11,6 @@ import java.awt.Font;
 
 public class MainWindow {
 
-	
-	
-	//ssss
 	private JFrame frame;
 
 	/**
